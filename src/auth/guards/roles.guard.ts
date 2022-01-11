@@ -6,9 +6,10 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
-import { ROLES_KEY } from '../decorators/roles.decorators';
-import { Role } from '../models/roles.model';
+
+import { ROLES_KEY } from '../decorators/roles.decorator';
 import { PayloadToken } from '../models/token.model';
+import { Role } from '../models/roles.model';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -20,12 +21,10 @@ export class RolesGuard implements CanActivate {
     if (!roles) {
       return true;
     }
-    // ['admin', 'customer', 'super-admin']
+    // ['admin', 'customer'];
     const request = context.switchToHttp().getRequest();
-
     const user = request.user as PayloadToken;
     // { role: 'admin', sub: 1212 }
-
     const isAuth = roles.some((role) => role === user.role);
     if (!isAuth) {
       throw new UnauthorizedException('your role is wrong');

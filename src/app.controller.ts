@@ -1,6 +1,14 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Query,
+  UseGuards,
+  SetMetadata,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { Public } from './auth/decorators/public.decorator';
+
 import { ApiKeyGuard } from './auth/guards/api-key.guard';
 
 @UseGuards(ApiKeyGuard)
@@ -8,18 +16,18 @@ import { ApiKeyGuard } from './auth/guards/api-key.guard';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  @Public()
   @Get()
   getHello(): string {
     return this.appService.getHello();
   }
 
-  @Public()
   @Get('nuevo')
+  @Public()
   newEndpoint() {
     return 'yo soy nuevo';
   }
 
-  // @Public()
   @Get('/ruta/')
   hello() {
     return 'con /sas/';

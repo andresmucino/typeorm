@@ -1,29 +1,33 @@
 import {
-  Body,
   Controller,
-  Delete,
   Get,
-  HttpCode,
-  HttpStatus,
+  Query,
   Param,
   Post,
+  Body,
   Put,
-  Query,
-  UseGuards,
+  Delete,
+  HttpStatus,
+  HttpCode,
+  Res,
+  UseGuards
+  // ParseIntPipe,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Public } from 'src/auth/decorators/public.decorator';
-import { Roles } from 'src/auth/decorators/roles.decorators';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { Role } from 'src/auth/models/roles.model';
+import { Response } from 'express';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
+
 import { ParseIntPipe } from '../../common/parse-int.pipe';
 import {
   CreateProductDto,
-  FilterProductsDto,
   UpdateProductDto,
+  FilterProductsDto,
 } from '../dtos/products.dtos';
 import { ProductsService } from './../services/products.service';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../../auth/guards/roles.guard';
+import { Public } from '../../auth/decorators/public.decorator';
+import { Roles } from '../../auth/decorators/roles.decorator';
+import { Role } from '../../auth/models/roles.model';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('products')
